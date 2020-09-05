@@ -48,7 +48,7 @@ export class SlotBookingFormComponent implements OnInit {
       parentsContactNumber: "",
       parentsEmailid: "",
       childsName: "",
-      childsAge: 5,
+      childsAge: undefined,
       courseName: "",
       suitableDate: "",
       suitableTimeSlot: ""
@@ -61,18 +61,17 @@ export class SlotBookingFormComponent implements OnInit {
   onSubmitTemplateBased() {
     this.validate();
     this.user = {
-      parentsName: "",
-      parentsContactNumber: "",
-      parentsEmailid: "",
-      childsName: "",
-      childsAge: 5,
-      courseName: "",
-      suitableDate: "",
-      suitableTimeSlot: ""
+      parentsName: undefined,
+      parentsContactNumber: undefined,
+      parentsEmailid: undefined,
+      childsName: undefined,
+      childsAge: undefined,
+      courseName: undefined,
+      suitableDate: undefined,
+      suitableTimeSlot: undefined
     }
-    this._snackBar.open("Slot booked", "OK", {
-      duration: 2000,
-      panelClass: ['blue-snackbar']
+    this._snackBar.open("Slot booked", "", {
+      duration: 2000
     });
   }
 

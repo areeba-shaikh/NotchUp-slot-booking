@@ -1,104 +1,114 @@
 <div id="topDiv" class="container-fluid">
 
     <div class="row justify-content-center">
-        <div class="col-xs-12 col-md-12 ">
+        <div class="col-xs-12 col-md-12 center">
 
 
-            <h1>Book a FREE Trial Coding Session</h1>
+            <h1>Book your FREE trial session</h1>
 
         </div>
     </div>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center input-row">
         <div class="col-xs-12 col-md-12 ">
             <form #f="ngForm" (ngSubmit)="onSubmitTemplateBased()">
+                <div class="input-card">
+                    <div class="row top-border">
+                        <div class="col-xs-12 col-md-12 ">
+                            <label class="margin-top-20">Parent's details</label>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-xs-12 col-md-6 ">
+                            <mat-form-field class="full-width">
+                                <mat-label>Name</mat-label>
+                                <input matInput required placeholder="Ex. John Doe" [(ngModel)]="user.parentsName" name="parentName">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row margin-bottom-15">
+                        <div class="col-xs-12 col-md-12 ">
+                            <ngx-intl-tel-input [cssClass]="'custom-tel-input'" [preferredCountries]="[CountryISO.UnitedStates, CountryISO.UnitedKingdom]" [enableAutoCountrySelect]="false" [enablePlaceholder]="true" [searchCountryFlag]="true" [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                                [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.India" [maxLength]="15" [tooltipField]="TooltipLabel.Name" [phoneValidation]="true" name="phone" [(ngModel)]="user.parentsContactNumber"></ngx-intl-tel-input>
+                        </div>
+                    </div>
+
+                    <div class="row ">
+                        <div class="col-xs-12 col-md-6 ">
+                            <mat-form-field class="full-width">
+                                <mat-label>Email ID</mat-label>
+                                <input type="email" matInput required placeholder="Ex. abcxyz@gmail.com" [(ngModel)]="user.parentsEmailid" name="email">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-card">
+
+                    <div class="row top-border">
+                        <div class="col-xs-12 col-md-12 ">
+                            <label class="margin-top-20">Child's details</label>
+                        </div>
+                    </div>
+                    <div class="row ">
+
+                        <div class="col-xs-12 col-md-6 ">
+                            <mat-form-field class="full-width">
+                                <mat-label>Name</mat-label>
+                                <input matInput required placeholder="Ex. Andy Doe" [(ngModel)]="user.childsName" name="childName">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-xs-12 col-md-6 ">
+                            <mat-form-field class="full-width">
+                                <mat-label>Age</mat-label>
+                                <input matInput required type="number" min="5" max="17" placeholder="Ex. 10" [(ngModel)]="user.childsAge" name="age">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-card">
+
+                    <div class="row top-border">
+                        <div class="col-xs-12 col-md-12 ">
+                            <label class="margin-top-20">Course details</label>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-xs-12 col-md-4 ">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Course name</mat-label>
+                                <mat-select required="true" (selectionChange)="onCourseSelect($event)" [(ngModel)]="user.courseName" name="courseName">
+                                    <mat-option *ngFor="let courseName of avaialbleCourseNames" [value]="courseName">
+                                        {{courseName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-xs-12 col-md-4 ">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Choose a date</mat-label>
+                                <input name="suitableDate" matInput (dateChange)="onDateSelect($event)" [matDatepicker]="picker" [matDatepickerFilter]="dateFilter" required disabled [(ngModel)]="user.suitableDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker required="true" #picker disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-xs-12 col-md-4 ">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Available slots</mat-label>
+                                <mat-select required="true" [(ngModel)]="user.suitableTimeSlot" name="slot-time">
+                                    <mat-option *ngFor="let availableSlot of filteredTimeSlots" [value]="availableSlot.slot">
+                                        {{availableSlot.slot | date:'hh:mm a'}} to {{ availableSlot.endTime | date:'hh:mm a'}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
                 <div class="row top-border">
-                    <div class="col-xs-12 col-md-12 ">
-                        <label class="margin-top-20">Parent's details</label>
+                    <div class="col-xs-12 col-md-12 center">
+                        <button mat-flat-button type="submit" color="primary" name="submit">Submit</button>
                     </div>
                 </div>
-                <div class="row ">
-                    <div class="col-xs-12 col-md-6 ">
-                        <mat-form-field class="full-width">
-                            <mat-label>Parent's name</mat-label>
-                            <input matInput required placeholder="Ex. John Doe" [(ngModel)]="user.parentsName" name="parentName">
-                        </mat-form-field>
-                    </div>
-                </div>
-
-                <div class="row ">
-                    <div class="col-xs-12 col-md-12 ">
-                        <ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="[CountryISO.UnitedStates, CountryISO.UnitedKingdom]" [enableAutoCountrySelect]="false" [enablePlaceholder]="true" [searchCountryFlag]="true" [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
-                            [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.India" [maxLength]="15" [tooltipField]="TooltipLabel.Name" [phoneValidation]="true" name="phone" [(ngModel)]="user.parentsContactNumber"></ngx-intl-tel-input>
-                    </div>
-                </div>
-
-                <div class="row ">
-                    <div class="col-xs-12 col-md-6 ">
-                        <mat-form-field class="full-width">
-                            <mat-label>Parent's Email ID</mat-label>
-                            <input type="email" matInput required placeholder="Ex. abcxyz@gmail.com" [(ngModel)]="user.parentsEmailid" name="email">
-                        </mat-form-field>
-                    </div>
-                </div>
-
-                <div class="row top-border">
-                    <div class="col-xs-12 col-md-12 ">
-                        <label class="margin-top-20">Child's details</label>
-                    </div>
-                </div>
-                <div class="row ">
-
-                    <div class="col-xs-12 col-md-6 ">
-                        <mat-form-field class="full-width">
-                            <mat-label>Child's Name</mat-label>
-                            <input matInput required placeholder="Ex. Andy Doe" [(ngModel)]="user.childsName" name="childName">
-                        </mat-form-field>
-                    </div>
-                    <div class="col-xs-12 col-md-6 ">
-                        <mat-form-field class="full-width">
-                            <mat-label>Child's age</mat-label>
-                            <input matInput required type="number" min="5" max="17" placeholder="Ex. 10" [(ngModel)]="user.childsAge" name="age">
-                        </mat-form-field>
-                    </div>
-                </div>
-
-                <div class="row top-border">
-                    <div class="col-xs-12 col-md-12 ">
-                        <label class="margin-top-20">Course details</label>
-                    </div>
-                </div>
-                <div class="row ">
-                    <div class="col-xs-12 col-md-4 ">
-                        <mat-form-field appearance="fill">
-                            <mat-label>Course name</mat-label>
-                            <mat-select (selectionChange)="onCourseSelect($event)">
-                                <mat-option *ngFor="let courseName of avaialbleCourseNames" [value]="courseName">
-                                    {{courseName}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-xs-12 col-md-4 ">
-                        <mat-form-field appearance="fill">
-                            <mat-label>Choose a date</mat-label>
-                            <input name="suitableDate" matInput (dateChange)="onDateSelect($event)" [matDatepicker]="picker" [matDatepickerFilter]="dateFilter" required disabled [(ngModel)]="user.suitableDate">
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-xs-12 col-md-4 ">
-                        <mat-form-field appearance="fill">
-                            <mat-label>Available slots</mat-label>
-                            <mat-select>
-                                <mat-option *ngFor="let availableSlot of filteredTimeSlots" [value]="availableSlot.slot">
-                                    {{availableSlot.slot | date:'hh:mm a'}} to {{ availableSlot.endTime | date:'hh:mm a'}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
-
-                <button mat-flat-button type="submit" color="primary" name="submit">Submit</button>
             </form>
         </div>
     </div>

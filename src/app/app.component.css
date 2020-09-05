@@ -10,7 +10,7 @@ body {
 }
 
 app-slot-booking-form {
-    background: rgba(245, 245, 242);
+    background: rgba(112, 112, 111, 0.8);
     margin-top: 15px;
     padding-top: 15px;
     padding-bottom: 15px;
