@@ -11,6 +11,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,10 +28,13 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSelectModule
     , NgxIntlTelInputModule
     , MatDatepickerModule
-, MatNativeDateModule
+    , MatNativeDateModule
+    , MatButtonModule,
+    MatCardModule,
+    MatSnackBarModule
   ],
-  providers: [  
-    MatDatepickerModule,  
+  providers: [
+    MatDatepickerModule,
   ],
   bootstrap: [AppComponent]
 })

@@ -6,7 +6,8 @@ import { CourseService } from '../course.service';
 
 import { CountryISO, SearchCountryField, TooltipLabel } from 'ngx-intl-tel-input';
 import { Slot } from '../slot';
-
+import { validateHorizontalPosition } from '@angular/cdk/overlay';
+import {MatSnackBar} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-slot-booking-form',
   templateUrl: './slot-booking-form.component.html',
@@ -21,7 +22,7 @@ export class SlotBookingFormComponent implements OnInit {
     CountryISO.UnitedKingdom,
   ];
   coursesFromServer: Course[] = [];
-  dateFilter = (date: Date): boolean => { return true; }
+  dateFilter = (date: Date): boolean => { return false; }
   avaialbleCourseNames = ['Game Development Jr',
     'Game Development',
     'App Development',
@@ -32,7 +33,7 @@ export class SlotBookingFormComponent implements OnInit {
   filteredTimeSlots: Slot[] = [];
   minDate: Date;
   maxDate: Date;
-  constructor(private courseService: CourseService) {
+  constructor(private courseService: CourseService, private _snackBar: MatSnackBar) {
     // Set the minimum to January 1st 20 years in the past and December 31st a year in the future.
     const currentDate = new Date();
     this.minDate = new Date();
@@ -58,7 +59,25 @@ export class SlotBookingFormComponent implements OnInit {
   user: User;
 
   onSubmitTemplateBased() {
+    this.validate();
+    this.user = {
+      parentsName: "",
+      parentsContactNumber: "",
+      parentsEmailid: "",
+      childsName: "",
+      childsAge: 5,
+      courseName: "",
+      suitableDate: "",
+      suitableTimeSlot: ""
+    }
+    this._snackBar.open("Slot booked", "OK", {
+      duration: 2000,
+      panelClass: ['blue-snackbar']
+    });
+  }
 
+  validate(): boolean {
+    return true;
   }
   getCourses() {
     this.courseService.getCourses()
@@ -68,39 +87,31 @@ export class SlotBookingFormComponent implements OnInit {
       });
   }
   onDateSelect(selected) {
+    this.user.suitableTimeSlot = undefined;
     let selectedDate = new Date(selected.value);
-    console.log(selectedDate);
-    console.log(this.availableTimeSlots);
     this.filteredTimeSlots = [];
     for (let j = 0; j < this.availableTimeSlots.length; j++) {
       let availableDate = new Date(Number(this.availableTimeSlots[j].slot));
       if (selectedDate.getDay() == availableDate.getDay()) {
+        //set end time
+        let endTime = new Date(availableDate);
+        endTime.setHours(endTime.getHours() + 1);
+        this.availableTimeSlots[j].endTime = endTime.getTime() + "";
         this.filteredTimeSlots.push(this.availableTimeSlots[j]);
       }
     }
-    
+
   }
   onCourseSelect(selected) {
-    console.log(selected.value);
+    this.filteredTimeSlots = [];
     this.availableTimeSlots = [];
-    this.user.suitableDate = "";
+    this.user.suitableDate = undefined;
+    this.user.suitableTimeSlot = undefined;
     this.dateFilter = (date: Date): boolean => {
       return false;
     }
     for (let i = 0; i < this.coursesFromServer.length; i++) {
       let courseFromServer: Course = this.coursesFromServer[i];
-
-
-      //set end time
-      // for (let j = 0; j < courseFromServer.slots.length; j++) {
-      //   courseFromServer.slots[j].endTime = courseFromServer.slots[j].slot;
-      //       let endTime = new Date(Number(courseFromServer.slots[j].endTime));
-      //       endTime.setHours(endTime.getHours() + 1);
-      //       courseFromServer.slots[j].endTime = "" + endTime.getSeconds();
-      //       console.log(courseFromServer.slots[j]);
-      //       console.log(endTime);
-      // }
-      // this.coursesFromServer[i] = courseFromServer;
 
       if (courseFromServer.course_name == selected.value) {
         courseFromServer.slots.sort((a, b) => new Date(b.slot).getTime() - new Date(a.slot).getTime());
@@ -110,7 +121,7 @@ export class SlotBookingFormComponent implements OnInit {
           for (let j = 0; j < courseFromServer.slots.length; j++) {
             let availableDate = new Date(Number(courseFromServer.slots[j].slot));
             if (date.getDate() == availableDate.getDate() && date.getTime() >= this.minDate.getTime() && date.getTime() <= this.maxDate.getTime()) {
-               return true;
+              return true;
             }
           }
           return false;

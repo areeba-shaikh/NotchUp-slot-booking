@@ -2,13 +2,15 @@
     display: flex;
     justify-content: center;
 }
+
 body {
-    background-image: url("../assets/body-bg.jpg");
+    background-image: url("../assets/body-bg2.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }
+
 app-slot-booking-form {
-    background: rgba(199, 159, 169, 0.8);
+    background: rgba(245, 245, 242);
     margin-top: 15px;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -16,15 +18,8 @@ app-slot-booking-form {
 }
 
 
-
-h1 {
+/* h1 {
     color: #14eeee;
     font-style: oblique;
     text-shadow: 2px 2px 5px red;
-  }
-  
-  
-  
-
-
- 
+  } */
